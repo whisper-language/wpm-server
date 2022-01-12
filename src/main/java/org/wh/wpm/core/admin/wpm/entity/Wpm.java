@@ -1,4 +1,4 @@
-package org.wh.wpm.core.admin.user.entity;
+package org.wh.wpm.core.admin.wpm.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
-@Table(name = "student")
+@Table(name = "wpm")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +23,18 @@ public class Wpm implements Serializable {
     @GeneratedValue(generator = "JDBC")
     private Integer id;
 
-
+    /**
+     * name
+     */
     private String name;
+    /**
+     * version
+     */
+    private String version;
+
+    /**
+     * repo
+     */
+    private String repo;
 
 }

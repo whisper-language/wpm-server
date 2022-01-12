@@ -1,10 +1,10 @@
-package org.wh.wpm.core.admin.user.api;
+package org.wh.wpm.core.admin.wpm.api;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.wh.wpm.core.admin.user.entity.Wpm;
-import org.wh.wpm.core.admin.user.service.WpmService;
+import org.wh.wpm.core.admin.wpm.entity.Wpm;
+import org.wh.wpm.core.admin.wpm.service.WpmService;
 import org.wh.wpm.core.common.dto.ResDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

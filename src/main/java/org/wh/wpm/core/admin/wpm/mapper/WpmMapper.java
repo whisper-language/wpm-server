@@ -1,6 +1,6 @@
-package org.wh.wpm.core.admin.user.mapper;
+package org.wh.wpm.core.admin.wpm.mapper;
 
-import org.wh.wpm.core.admin.user.entity.Wpm;
+import org.wh.wpm.core.admin.wpm.entity.Wpm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

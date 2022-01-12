@@ -1,9 +1,9 @@
-package org.wh.wpm.core.admin.user.service.impl;
+package org.wh.wpm.core.admin.wpm.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.wh.wpm.core.admin.user.entity.Wpm;
-import org.wh.wpm.core.admin.user.mapper.WpmMapper;
-import org.wh.wpm.core.admin.user.service.WpmService;
+import org.wh.wpm.core.admin.wpm.entity.Wpm;
+import org.wh.wpm.core.admin.wpm.mapper.WpmMapper;
+import org.wh.wpm.core.admin.wpm.service.WpmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,6 @@ public class WpmServiceImpl implements WpmService {
     @Override
     public List<Wpm> query(Wpm form) {
         log.info(form.getId()+"");
-        wpmMapper.insert(new Wpm());
         return wpmMapper.query(form);
     }
 

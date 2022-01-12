@@ -1,4 +1,4 @@
-package org.wh.wpm.core.admin.user.service;
+package org.wh.wpm.core.admin.wpm.service;
 
 import java.util.List;
 
