@@ -10,9 +10,11 @@ import org.wh.wpm.core.admin.wpm.service.WpmService;
 import org.wh.wpm.core.api.wpm.form.WpmSearchForm;
 import org.wh.wpm.core.common.dto.ResDto;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @RestController()
 @Slf4j
-@RequestMapping("/api/v0.0.1/")
 public class WpmUserApi {
 
     @Autowired
@@ -21,5 +23,13 @@ public class WpmUserApi {
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     public ResDto<?> search(WpmSearchForm form) {
         return new ResDto(0, "", wpmService.search(form));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/download/{authorName}/{packageName}/{versionName}")
+    public void down(@PathVariable("authorName") String authorName,
+                     @PathVariable("packageName") String packageName,
+                          @PathVariable("versionName") String versionName,
+                          HttpServletResponse response) throws IOException {
+        wpmService.download(response,authorName,packageName,versionName);
     }
 }

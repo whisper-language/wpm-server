@@ -12,7 +12,7 @@
     <artifactId>wpm-server</artifactId>
     <version>0.0.1</version>
     <name>wpm-server</name>
-    <description>wpm-server </description>
+    <description>wpm-server wpm包管理器 服务器端</description>
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>

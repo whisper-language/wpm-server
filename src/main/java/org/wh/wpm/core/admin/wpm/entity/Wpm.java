@@ -31,10 +31,17 @@ public class Wpm implements Serializable {
      * version
      */
     private String version;
-
     /**
      * repo
      */
     private String repo;
+    /**
+     * 压缩文件md5值
+     */
+    private String md5;
+    /**
+     * 压缩文件 sha256值
+     */
+    private String sha256;
 
 }
