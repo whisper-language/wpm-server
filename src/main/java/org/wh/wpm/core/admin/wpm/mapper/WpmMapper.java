@@ -9,6 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface WpmMapper extends tk.mybatis.mapper.common.Mapper<Wpm> {
-    @Select(" select * from student where id=#{form.id}")
+    @Select(" select * from wpm where id=#{form.id}")
     List<Wpm> query(@Param("form") Wpm form);
+
+    @Select(" select * from wpm where author=#{authorName} and name=#{packageName} and version=#{versionName}")
+    Wpm queryByAuthorNameAndPackageNameAndVersionName(@Param("authorName") String authorName, @Param("packageName") String packageName, @Param("versionName") String versionName);
 }

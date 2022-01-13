@@ -23,6 +23,7 @@ public class Wpm implements Serializable {
     @GeneratedValue(generator = "JDBC")
     private Integer id;
 
+    private String author;
     /**
      * name
      */
@@ -31,6 +32,8 @@ public class Wpm implements Serializable {
      * version
      */
     private String version;
+
+
     /**
      * repo
      */

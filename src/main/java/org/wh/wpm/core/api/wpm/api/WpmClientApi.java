@@ -1,11 +1,8 @@
 package org.wh.wpm.core.api.wpm.api;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.wh.wpm.core.admin.wpm.entity.Wpm;
 import org.wh.wpm.core.admin.wpm.service.WpmService;
 import org.wh.wpm.core.api.wpm.form.WpmSearchForm;
 import org.wh.wpm.core.common.dto.ResDto;
@@ -15,7 +12,7 @@ import java.io.IOException;
 
 @RestController()
 @Slf4j
-public class WpmUserApi {
+public class WpmClientApi {
 
     @Autowired
     WpmService wpmService;
@@ -29,7 +26,7 @@ public class WpmUserApi {
     public void down(@PathVariable("authorName") String authorName,
                      @PathVariable("packageName") String packageName,
                           @PathVariable("versionName") String versionName,
-                          HttpServletResponse response) throws IOException {
+                          HttpServletResponse response) throws Exception {
         wpmService.download(response,authorName,packageName,versionName);
     }
 }

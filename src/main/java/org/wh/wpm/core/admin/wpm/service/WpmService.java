@@ -10,5 +10,5 @@ import java.util.List;
 public interface WpmService extends CurdService<Wpm> {
     List<Wpm> search(WpmSearchForm form);
 
-    void download(HttpServletResponse response, String authorName, String packageName, String versionName) throws IOException;
+    void download(HttpServletResponse response, String authorName, String packageName, String versionName) throws Exception;
 }
