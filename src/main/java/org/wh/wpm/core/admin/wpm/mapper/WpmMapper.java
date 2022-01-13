@@ -1,5 +1,6 @@
 package org.wh.wpm.core.admin.wpm.mapper;
 
+import org.wh.wpm.core.admin.wpm.entity.PublishType;
 import org.wh.wpm.core.admin.wpm.entity.Wpm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +15,7 @@ public interface WpmMapper extends tk.mybatis.mapper.common.Mapper<Wpm> {
 
     @Select(" select * from wpm where author=#{authorName} and name=#{packageName} and version=#{versionName} limit 1")
     Wpm queryByAuthorNameAndPackageNameAndVersionName(@Param("authorName") String authorName, @Param("packageName") String packageName, @Param("versionName") String versionName);
+
+    @Select(" select * from wpm where author=#{authorName} and name=#{packageName} and version=#{versionName} and publish=#{publish} limit 1")
+    Wpm queryByAuthorNameAndPackageNameAndVersionNameAndPublish(@Param("authorName") String authorName, @Param("packageName") String packageName, @Param("versionName") String versionName, @Param("publish") PublishType publish);
 }

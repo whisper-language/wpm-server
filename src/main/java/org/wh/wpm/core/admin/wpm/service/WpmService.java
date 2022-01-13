@@ -2,17 +2,17 @@ package org.wh.wpm.core.admin.wpm.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.wh.wpm.core.admin.wpm.entity.Wpm;
-import org.wh.wpm.core.api.wpm.form.WpmSearchForm;
+import org.wh.wpm.core.api.wpm.form.PublishForm;
+import org.wh.wpm.core.api.wpm.form.SearchForm;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 public interface WpmService extends CurdService<Wpm> {
-    List<Wpm> search(WpmSearchForm form);
+    List<Wpm> search(SearchForm form);
 
-    void download(HttpServletResponse response, String authorName, String packageName, String versionName) throws Exception;
+    void download(HttpServletRequest request, HttpServletResponse response, String authorName, String packageName, String versionName) throws Exception;
 
-    Wpm upload(HttpServletResponse response, String authorName, String packageName, String versionName, MultipartFile file) throws Exception;
+    Wpm upload(HttpServletResponse response, String authorName, String packageName, String versionName, MultipartFile file, PublishForm form) throws Exception;
 }

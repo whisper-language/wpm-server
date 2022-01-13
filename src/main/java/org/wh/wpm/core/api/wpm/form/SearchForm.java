@@ -3,6 +3,6 @@ package org.wh.wpm.core.api.wpm.form;
 import lombok.Data;
 
 @Data
-public class WpmSearchForm {
+public class SearchForm {
     String words;
 }

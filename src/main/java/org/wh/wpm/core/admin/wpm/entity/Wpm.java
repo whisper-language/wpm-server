@@ -1,15 +1,14 @@
 package org.wh.wpm.core.admin.wpm.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 @Table(name = "wpm")
 @Data
@@ -23,16 +22,24 @@ public class Wpm implements Serializable {
     @GeneratedValue(generator = "JDBC")
     private Integer id;
 
-    private String author;
+    @NotNull private String author;
     /**
      * name
      */
-    private String name;
+    @NotNull private String name;
     /**
      * version
      */
-    private String version;
+    @NotNull private String version;
+    /**
+     * 访问级别
+     */
+    @NotNull private Integer access;
 
+    /**
+     * 访问级别
+     */
+    @NotNull private Integer publish;
 
     /**
      * repo
@@ -41,10 +48,18 @@ public class Wpm implements Serializable {
     /**
      * 压缩文件md5值
      */
+    @NotNull
     private String md5;
     /**
      * 压缩文件 sha256值
      */
+    @NotNull
     private String sha256;
+
+
+    private  Long size;
+
+    Date createAt;
+    Date updateAt;
 
 }
