@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -80,7 +81,7 @@ public class WpmServiceImpl implements WpmService {
             log.info("读取后端文件缓存到本地");
 
             if (checkVersionExit(authorName, packageName, versionName)) {
-                readFromUpstream(request,response,fName);
+                readFromUpstream(request, response, fName);
                 return;
             }
             response.setContentType("application/octet-stream");
@@ -125,7 +126,7 @@ public class WpmServiceImpl implements WpmService {
     @Override
     public Wpm upload(HttpServletResponse response, String authorName, String packageName, String versionName, MultipartFile file, PublishForm form) throws Exception {
         log.info("上传" + form.getPublish());
-        var isExit = wpmMapper.queryByAuthorNameAndPackageNameAndVersionNameAndPublish(authorName, packageName, versionName,form.getPublish());
+        var isExit = wpmMapper.queryByAuthorNameAndPackageNameAndVersionNameAndPublish(authorName, packageName, versionName, form.getPublish());
         if (isExit != null) {
             if (form.getPublish().equals(PublishType.PRODUCT)) {
                 throw new Exception("对应的版本已经存在请更新版本后再发布 " + authorName + " " + packageName + " " + versionName);
@@ -151,8 +152,8 @@ public class WpmServiceImpl implements WpmService {
             fileOutputStream.write(file.getBytes());
             fileOutputStream.close();
 
-            log.info("创建包记录"+form.getPublish());
-            var s=Wpm.builder()
+            log.info("创建包记录" + form.getPublish());
+            var s = Wpm.builder()
                     .author(authorName)
                     .name(packageName)
                     .version(versionName)
@@ -172,34 +173,32 @@ public class WpmServiceImpl implements WpmService {
 
     @Value("${app.upstream.url}")
     String upstream;
+    @Value("${app.upstream.token}")
+    String token;
 
-    //TODO  后端重定向
     public void readFromUpstream(HttpServletRequest request, HttpServletResponse response, String fName) throws Exception {
-        log.info("从后端读取包信息"+request.getRequestURI());
+        log.info("从后端读取包信息" + request.getRequestURL());
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest newRequest = HttpRequest.newBuilder()
                 .uri(new URI(upstream))
+                .setHeader("token", token)
                 .build();
-
-        var s=client.sendAsync(newRequest, HttpResponse.BodyHandlers.ofInputStream())
+        var s = client.sendAsync(newRequest, HttpResponse.BodyHandlers.ofInputStream())
                 .thenApply(HttpResponse::body)
-                .thenAccept(s1->{
+                .thenAccept(s1 -> {
                     response.setContentType("application/octet-stream");
                     response.setHeader("Content-Disposition", "attachment; filename=" + fName);
-                    byte[] source= new byte[0];
+                    byte[] source;
                     try {
                         source = s1.readAllBytes();
-                        log.info("结果"+new String(source));
-                        var out=response.getOutputStream();
+                        log.info("结果" + new String(source));
+                        //如果结果正确 cache到本地
+                        var out = response.getOutputStream();
                         out.write(source);
 //                        out.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
-
-
-
-
     }
 }
