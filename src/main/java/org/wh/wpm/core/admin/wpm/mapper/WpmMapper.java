@@ -12,6 +12,6 @@ public interface WpmMapper extends tk.mybatis.mapper.common.Mapper<Wpm> {
     @Select(" select * from wpm where id=#{form.id}")
     List<Wpm> query(@Param("form") Wpm form);
 
-    @Select(" select * from wpm where author=#{authorName} and name=#{packageName} and version=#{versionName}")
+    @Select(" select * from wpm where author=#{authorName} and name=#{packageName} and version=#{versionName} limit 1")
     Wpm queryByAuthorNameAndPackageNameAndVersionName(@Param("authorName") String authorName, @Param("packageName") String packageName, @Param("versionName") String versionName);
 }

@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResDto<Object> handlerException(Exception ex) {
         log.info("异常");
+        ex.printStackTrace();
         return new ResDto<>(-1, ex.getMessage(), "");
     }
 }

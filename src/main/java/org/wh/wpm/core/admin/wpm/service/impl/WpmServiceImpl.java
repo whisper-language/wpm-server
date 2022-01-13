@@ -2,6 +2,7 @@ package org.wh.wpm.core.admin.wpm.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.wh.wpm.core.admin.wpm.entity.Wpm;
 import org.wh.wpm.core.admin.wpm.mapper.WpmMapper;
 import org.wh.wpm.core.admin.wpm.service.WpmService;
@@ -69,8 +70,8 @@ public class WpmServiceImpl implements WpmService {
             fin.close();
         } else {
             log.info("读取后端文件缓存到本地");
-            var packageMeta=wpmMapper.queryByAuthorNameAndPackageNameAndVersionName(authorName,packageName,versionName);
-            if(ObjectUtils.isEmpty(packageMeta)){
+
+            if (checkVersionExit(authorName, packageName, versionName)) {
                 readFromUpstream(response);
                 return;
             }
@@ -106,9 +107,31 @@ public class WpmServiceImpl implements WpmService {
         output.close();
     }
 
-    public  void readFromUpstream(HttpServletResponse response) throws Exception {
+    boolean checkVersionExit(String authorName, String packageName, String versionName) {
+        var packageMeta = wpmMapper.queryByAuthorNameAndPackageNameAndVersionName(authorName, packageName, versionName);
+        return packageMeta == null;
+    }
+
+    @Override
+    public Wpm upload(HttpServletResponse response, String authorName, String packageName, String versionName, MultipartFile file) throws Exception {
+        log.info("上传");
+        if (!checkVersionExit(authorName, packageName, versionName)) {
+            throw new Exception("对应的版本已经存在请更新版本后再发布 " + authorName + " " + packageName + " " + versionName);
+        }
+
+        wpmMapper.insert(Wpm.builder().author(authorName).name(packageName).version(versionName).build());
+
+        var fName = authorName + "_" + packageName + "_" + versionName + ".zip";
+        var f = new File("./repo/" + fName);
+        FileOutputStream fileOutputStream = new FileOutputStream(f);
+        fileOutputStream.write(file.getBytes());
+        fileOutputStream.close();
+        return null;
+    }
+
+    public void readFromUpstream(HttpServletResponse response) throws Exception {
         log.info("从后端读取包信息");
 
-        throw  new Exception("包文件不存在");
+        throw new Exception("包文件不存在");
     }
 }

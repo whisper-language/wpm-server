@@ -12,7 +12,7 @@
  Target Server Version : 130004
  File Encoding         : 65001
 
- Date: 13/01/2022 13:41:07
+ Date: 13/01/2022 14:27:16
 */
 
 
@@ -50,10 +50,13 @@ MAXVALUE 2147483647
 START 1
 ),
   "name" varchar(255) COLLATE "pg_catalog"."default",
-  "password" varchar(255) COLLATE "pg_catalog"."default"
+  "password" varchar(255) COLLATE "pg_catalog"."default",
+  "create_at" timestamp(6)
 )
 ;
+COMMENT ON COLUMN "public"."user"."name" IS '用户名';
 COMMENT ON COLUMN "public"."user"."password" IS '密码';
+COMMENT ON COLUMN "public"."user"."create_at" IS '创建时间';
 
 -- ----------------------------
 -- Table structure for wpm
@@ -71,7 +74,10 @@ START 1
   "repo" varchar(255) COLLATE "pg_catalog"."default",
   "author" varchar(255) COLLATE "pg_catalog"."default",
   "create_at" timestamp(6),
-  "user_id" varchar(255) COLLATE "pg_catalog"."default"
+  "user_id" varchar(255) COLLATE "pg_catalog"."default",
+  "description" varchar(255) COLLATE "pg_catalog"."default",
+  "md5" varchar(255) COLLATE "pg_catalog"."default",
+  "sha256" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 COMMENT ON COLUMN "public"."wpm"."name" IS '库名称';
@@ -79,6 +85,7 @@ COMMENT ON COLUMN "public"."wpm"."version" IS '版本信息';
 COMMENT ON COLUMN "public"."wpm"."author" IS '作者信息';
 COMMENT ON COLUMN "public"."wpm"."create_at" IS '创建时间';
 COMMENT ON COLUMN "public"."wpm"."user_id" IS '创建用户的id';
+COMMENT ON COLUMN "public"."wpm"."description" IS '当前版本的描述信息';
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -92,7 +99,7 @@ SELECT setval('"public"."user_id_seq"', 2, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."wpm_package_id_seq"
 OWNED BY "public"."wpm"."id";
-SELECT setval('"public"."wpm_package_id_seq"', 2, false);
+SELECT setval('"public"."wpm_package_id_seq"', 6, true);
 
 -- ----------------------------
 -- Primary Key structure for table user
