@@ -72,7 +72,7 @@ public class WpmServiceImpl implements WpmService {
         var f = new File("./repo/" + fName);
         var output = response.getOutputStream();
         if (f.exists()) {
-            log.info("读取本地缓存文件");
+            log.info("本地存储的文件");
             FileInputStream fin = new FileInputStream(f);
             response.setContentType("application/octet-stream");
             output.write(fin.readAllBytes());
@@ -84,33 +84,33 @@ public class WpmServiceImpl implements WpmService {
                 readFromUpstream(request, response, fName);
                 return;
             }
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fName);
-            var local = new FileOutputStream(f);
-
-            log.info("创建zip文件");
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            //创建压缩留
-            ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
-            var list = new ArrayList<String>();
-            list.add("test1.txt");
-            list.add("test2.txt");
-            list.forEach(t -> {
-                try {
-                    log.info("写入文件");
-                    var z = new ZipEntry(t);
-                    zipOutputStream.putNextEntry(z);
-                    zipOutputStream.write(("test file" + t).getBytes(StandardCharsets.UTF_8));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            zipOutputStream.close();
-            var s = byteArrayOutputStream.toByteArray();
-            output.write(s);
-            local.write(s);
-            local.close();
+//            response.setContentType("application/octet-stream");
+//            response.setHeader("Content-Disposition", "attachment; filename=" + fName);
+//            var local = new FileOutputStream(f);
+//
+//            log.info("创建zip文件");
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            //创建压缩留
+//            ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+//            var list = new ArrayList<String>();
+//            list.add("test1.txt");
+//            list.add("test2.txt");
+//            list.forEach(t -> {
+//                try {
+//                    log.info("写入文件");
+//                    var z = new ZipEntry(t);
+//                    zipOutputStream.putNextEntry(z);
+//                    zipOutputStream.write(("test file" + t).getBytes(StandardCharsets.UTF_8));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//
+//            zipOutputStream.close();
+//            var s = byteArrayOutputStream.toByteArray();
+//            output.write(s);
+//            local.write(s);
+//            local.close();
         }
         output.close();
     }
@@ -177,28 +177,28 @@ public class WpmServiceImpl implements WpmService {
     String token;
 
     public void readFromUpstream(HttpServletRequest request, HttpServletResponse response, String fName) throws Exception {
-        log.info("从后端读取包信息" + request.getRequestURL());
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest newRequest = HttpRequest.newBuilder()
-                .uri(new URI(upstream))
-                .setHeader("token", token)
-                .build();
-        var s = client.sendAsync(newRequest, HttpResponse.BodyHandlers.ofInputStream())
-                .thenApply(HttpResponse::body)
-                .thenAccept(s1 -> {
-                    response.setContentType("application/octet-stream");
-                    response.setHeader("Content-Disposition", "attachment; filename=" + fName);
-                    byte[] source;
-                    try {
-                        source = s1.readAllBytes();
-                        log.info("结果" + new String(source));
-                        //如果结果正确 cache到本地
-                        var out = response.getOutputStream();
-                        out.write(source);
-//                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+        throw new Exception("当前仓库没有要下载的文件包");
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest newRequest = HttpRequest.newBuilder()
+//                .uri(new URI(upstream))
+//                .setHeader("token", token)
+//                .build();
+//        var s = client.sendAsync(newRequest, HttpResponse.BodyHandlers.ofInputStream())
+//                .thenApply(HttpResponse::body)
+//                .thenAccept(s1 -> {
+//                    response.setContentType("application/octet-stream");
+//                    response.setHeader("Content-Disposition", "attachment; filename=" + fName);
+//                    byte[] source;
+//                    try {
+//                        source = s1.readAllBytes();
+//                        log.info("结果" + new String(source));
+//                        //如果结果正确 cache到本地
+//                        var out = response.getOutputStream();
+//                        out.write(source);
+////                        out.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                });
     }
 }
